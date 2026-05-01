@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Substance Sleep-Impact Simulator is a lightweight, browser-based visualization tool for estimating the time course of sleep-relevant burden from selected substances. The current implementation supports caffeine, dextroamphetamine, lisdexamfetamine, methylphenidate formulations, mixed amphetamine salts extended-release, and alcohol. The tool is intended to visualize the estimated consequences of user-entered use patterns: substance, formulation or source, dose, time of ingestion, bedtime, and wake time. It is not designed to recommend dose timing, dose size, or medication use. The intended function is explanatory and comparative: it allows the user to inspect how modeled exposure, pharmacologic effect, and sleep-disturbance burden evolve across the waking day and sleep window.
+The Substance Sleep-Impact Simulator is a lightweight, browser-based visualization tool for estimating the time course of sleep-relevant burden from selected substances. The current implementation supports caffeine, dextroamphetamine, lisdexamfetamine, methylphenidate formulations, mixed amphetamine salts extended-release, modafinil / armodafinil, and alcohol. The tool is intended to visualize the estimated consequences of user-entered use patterns: substance, formulation or source, dose, time of ingestion, bedtime, and wake time. It is not designed to recommend dose timing, dose size, or medication use. The intended function is explanatory and comparative: it allows the user to inspect how modeled exposure, pharmacologic effect, and sleep-disturbance burden evolve across the waking day and sleep window.
 
 The app is implemented as a single static `index.html` file. It requires no backend, no database, no package manager, no build system, and no external JavaScript libraries. All calculations are performed locally in the browser. Scenario state is stored in browser `localStorage`, meaning entered data remains local to the user’s browser and is not transmitted to a server.
 
@@ -20,16 +20,17 @@ The dropdown order reflects practical expected use rather than pharmacologic tax
 4. Ritalin / methylphenidate immediate-release
 5. Alcohol
 6. Adderall XR / mixed amphetamine salts extended-release
-7. Concerta / OROS methylphenidate
-8. Ritalin LA
-9. Biphentin
-10. Foquest
+7. Modafinil / armodafinil
+8. Concerta / OROS methylphenidate
+9. Ritalin LA
+10. Biphentin
+11. Foquest
 
 Caffeine supports common source presets, including caffeine pill, espresso, double espresso, small coffee, medium coffee, large coffee, energy drink, and custom caffeine amount. Caffeine dose is entered in milligrams.
 
 Alcohol supports shot / spirits, beer, and glass of wine. Alcohol dose is entered in standard drinks. One Canadian standard drink is treated as approximately 13.45 g of ethanol, consistent with Health Canada’s standard drink definition.
 
-Prescription stimulant entries are represented using common brand names paired with pharmacologic names, for example Dexedrine / dextroamphetamine sulfate, Vyvanse / lisdexamfetamine, and Ritalin / methylphenidate hydrochloride. The purpose of this naming convention is practical user recognition while preserving pharmacologic specificity.
+Prescription stimulant and wakefulness-agent entries are represented using common brand names or recognizable pharmacologic names paired with pharmacologic specificity, for example Dexedrine / dextroamphetamine sulfate, Vyvanse / lisdexamfetamine, Ritalin / methylphenidate hydrochloride, and Modafinil / armodafinil. The purpose of this naming convention is practical user recognition while preserving pharmacologic specificity.
 
 ## Core visualization concepts
 
@@ -65,7 +66,7 @@ This is particularly important for alcohol. A high standard-drink input may prod
 
 Time fields are editable manually and also support increment controls. The displayed hour and minute components can be edited directly. Up and down controls allow hour and minute adjustments. Bedtime, wake time, new dose time, and existing stack-item times use the same interaction pattern.
 
-Dose fields use substance-appropriate increments. Alcohol increments in 0.5 standard drink units. Caffeine pill and custom caffeine inputs increment by 50 mg. Other caffeine presets increment by smaller practical amounts. Dexedrine IR increments by 2.5 mg. Dexedrine extended-release increments by 5 mg. Ritalin IR increments by 2.5 mg. Vyvanse increments by 10 mg. Other medications use a practical 5 mg increment. Prescription stimulant values are bounded to prevent nonsensical graph failure from extreme accidental input. Alcohol is not hard-capped because high drink counts may be deliberately modeled, but the graph rescales dynamically to accommodate high values.
+Dose fields use substance-appropriate increments. Alcohol increments in 0.5 standard drink units. Caffeine pill and custom caffeine inputs increment by 50 mg. Other caffeine presets increment by smaller practical amounts. Dexedrine IR increments by 2.5 mg. Dexedrine extended-release increments by 5 mg. Ritalin IR increments by 2.5 mg. Vyvanse increments by 10 mg. Modafinil and armodafinil increment by 50 mg. Other medications use a practical 5 mg increment. Prescription stimulant values are bounded to prevent nonsensical graph failure from extreme accidental input. Alcohol is not hard-capped because high drink counts may be deliberately modeled, but the graph rescales dynamically to accommodate high values.
 
 The unit is displayed beside the dose label itself, for example Dose (mg) or Dose (std drinks). A separate unit field is intentionally omitted because it is redundant.
 
@@ -89,6 +90,16 @@ Dexedrine, Vyvanse, and Adderall XR are modeled using simplified amphetamine-fam
 The app separates residual exposure, pharmacologic effect proxy, and sleep-disturbance burden. This means the dashed plasma proxy or dotted effect proxy may remain elevated when the solid sleep-burden curve has already fallen below the sleep threshold. This behavior is intentional. Dextroamphetamine may remain present in the body for many hours, while the modeled sleep-relevant burden declines because clinical effect, tolerance, time since ingestion, and modeled duration-of-effect attenuation are not identical to plasma persistence.
 
 The dextroamphetamine assumptions are anchored to prescribing-label pharmacokinetic data, including time-to-peak and elimination half-life values reported in DailyMed labeling for dextroamphetamine-containing products. DailyMed labels commonly report dextroamphetamine time-to-peak on the order of several hours and half-life on the order of approximately 10 to 12 hours, with variation by product and population.
+
+Sources:
+https://dailymed.nlm.nih.gov/
+https://dailymed.nlm.nih.gov/dailymed/
+
+## Modafinil / armodafinil model
+
+Modafinil and armodafinil are modeled as wakefulness-promoting agents with long residual persistence. The app treats both as standard oral tablet entries rather than inventing immediate-release or extended-release subtypes. Modafinil is represented with a peak around 2 to 4 hours and an effective half-life around 15 hours. Armodafinil is represented with an earlier peak around 2 hours and a persistent tail reflecting R-enantiomer exposure.
+
+The sleep-disturbance curve for these agents is intentionally long-tailed. This reflects their pharmacokinetic persistence and wakefulness-promoting use case, while remaining a simplified visualization model rather than a prediction of objective sleep outcome.
 
 Sources:
 https://dailymed.nlm.nih.gov/
