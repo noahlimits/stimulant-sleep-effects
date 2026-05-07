@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Sleep Impact Simulator</string>
+    <string name="title_activity_main">Sleep Impact Simulator</string>
+    <string name="package_name">com.noahlimits.stimulantsleep</string>
+    <string name="custom_url_scheme">com.noahlimits.stimulantsleep</string>
+</resources>

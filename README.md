@@ -211,6 +211,30 @@ https://www.ncbi.nlm.nih.gov/books/
 SLEEP / Oxford Academic. Alcohol and sleep architecture reference material.
 https://academic.oup.com/sleep/article/47/4/zsae003/7515846
 
+## Android development
+
+The Android app is a Capacitor wrapper around the same static simulator used by GitHub Pages. The source of truth remains the root `index.html`. Before Android sync/build, `npm run sync:web` copies that file into the native web asset folder.
+
+Useful commands:
+
+```text
+npm run sync:web
+npm run sync:android
+npm run build:android
+```
+
+The debug APK is produced at:
+
+```text
+android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+For local USB installation, enable Developer options and USB debugging on the Android phone, connect it to the computer, approve the debugging prompt on the phone, then run:
+
+```text
+adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+```
+
 ## Deployment
 
 The current deployment target is GitHub Pages.

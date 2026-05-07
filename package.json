@@ -1,0 +1,29 @@
+{
+  "name": "stimulant-sleep-effects",
+  "version": "1.0.0",
+  "description": "The Substance Sleep-Impact Simulator is a lightweight, browser-based visualization tool for estimating the time course of sleep-relevant burden from selected substances. The current implementation supports caffeine, dextroamphetamine, lisdexamfetamine, methylphenidate formulations, mixed amphetamine salts extended-release, modafinil / armodafinil, and alcohol. The tool is intended to visualize the estimated consequences of user-entered use patterns: substance, formulation or source, dose, time of ingestion, bedtime, and wake time. It is not designed to recommend dose timing, dose size, or medication use. The intended function is explanatory and comparative: it allows the user to inspect how modeled exposure, pharmacologic effect, and sleep-disturbance burden evolve across the waking day and sleep window.",
+  "main": "index.html",
+  "scripts": {
+    "sync:web": "node tools/sync-web.mjs",
+    "sync:android": "npm run sync:web && cap sync android",
+    "open:android": "npm run sync:android && cap open android",
+    "build:android": "npm run sync:android && cd android && gradlew.bat assembleDebug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noahlimits/stimulant-sleep-effects.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/noahlimits/stimulant-sleep-effects/issues"
+  },
+  "homepage": "https://github.com/noahlimits/stimulant-sleep-effects#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.3.2",
+    "@capacitor/cli": "^8.3.2",
+    "@capacitor/core": "^8.3.2"
+  }
+}

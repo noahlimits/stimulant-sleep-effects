@@ -1,0 +1,6 @@
+{
+  "appId": "com.noahlimits.stimulantsleep",
+  "appName": "Sleep Impact Simulator",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
