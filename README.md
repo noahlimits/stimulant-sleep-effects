@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Substance Sleep-Impact Simulator is a lightweight, browser-based visualization tool for estimating the time course of sleep-relevant burden from selected substances. The current implementation supports caffeine, dextroamphetamine, lisdexamfetamine, methylphenidate formulations, mixed amphetamine salts extended-release, modafinil / armodafinil, and alcohol. The tool is intended to visualize the estimated consequences of user-entered use patterns: substance, formulation or source, dose, time of ingestion, bedtime, and wake time. It is not designed to recommend dose timing, dose size, or medication use. The intended function is explanatory and comparative: it allows the user to inspect how modeled exposure, pharmacologic effect, and sleep-disturbance burden evolve across the waking day and sleep window.
+The Substance Sleep-Impact Simulator is a lightweight, browser-based visualization tool for estimating the time course of sleep-relevant burden from selected substances. The current implementation supports caffeine, ephedrine, dextroamphetamine, lisdexamfetamine, methylphenidate formulations, mixed amphetamine salts extended-release, modafinil / armodafinil, and alcohol. The tool is intended to visualize the estimated consequences of user-entered use patterns: substance, formulation or source, dose, time of ingestion, bedtime, and wake time. It is not designed to recommend dose timing, dose size, or medication use. The intended function is explanatory and comparative: it allows the user to inspect how modeled exposure, pharmacologic effect, and sleep-disturbance burden evolve across the waking day and sleep window.
 
 The app is implemented as a single static `index.html` file. It requires no backend, no database, no package manager, no build system, and no external JavaScript libraries. All calculations are performed locally in the browser. Scenario state is stored in browser `localStorage`, meaning entered data remains local to the user’s browser and is not transmitted to a server.
 
@@ -15,16 +15,17 @@ https://noahlimits.github.io/stimulant-sleep-effects/
 The dropdown order reflects practical expected use rather than pharmacologic taxonomy. The current order is:
 
 1. Caffeine
-2. Dexedrine / dextroamphetamine sulfate
-3. Vyvanse / lisdexamfetamine
-4. Ritalin / methylphenidate immediate-release
-5. Alcohol
-6. Adderall XR / mixed amphetamine salts extended-release
-7. Modafinil / armodafinil
-8. Concerta / OROS methylphenidate
-9. Ritalin LA
-10. Biphentin
-11. Foquest
+2. Ephedrine
+3. Dexedrine / dextroamphetamine sulfate
+4. Vyvanse / lisdexamfetamine
+5. Ritalin / methylphenidate immediate-release
+6. Alcohol
+7. Adderall XR / mixed amphetamine salts extended-release
+8. Modafinil / armodafinil
+9. Concerta / OROS methylphenidate
+10. Ritalin LA
+11. Biphentin
+12. Foquest
 
 Caffeine supports common source presets, including caffeine pill, espresso, double espresso, small coffee, medium coffee, large coffee, energy drink, and custom caffeine amount. Caffeine dose is entered in milligrams.
 
@@ -68,6 +69,8 @@ Time fields are editable manually and also support increment controls. The displ
 
 Dose fields use substance-appropriate increments. Alcohol increments in 0.5 standard drink units. Caffeine pill and custom caffeine inputs increment by 50 mg. Other caffeine presets increment by smaller practical amounts. Dexedrine IR increments by 2.5 mg. Dexedrine extended-release increments by 5 mg. Ritalin IR increments by 2.5 mg. Vyvanse increments by 10 mg. Modafinil and armodafinil increment by 50 mg. Other medications use a practical 5 mg increment. Prescription stimulant values are bounded to prevent nonsensical graph failure from extreme accidental input. Alcohol is not hard-capped because high drink counts may be deliberately modeled, but the graph rescales dynamically to accommodate high values.
 
+Ephedrine uses the same editable dose field as the other substances, with 8 mg as its default value, not a required increment.
+
 The unit is displayed beside the dose label itself, for example Dose (mg) or Dose (std drinks). A separate unit field is intentionally omitted because it is redundant.
 
 ## Caffeine model
@@ -82,6 +85,17 @@ Reference anchors for caffeine include controlled sleep studies showing that caf
 
 Source:
 https://pmc.ncbi.nlm.nih.gov/articles/PMC3805807/
+
+## Ephedrine model
+
+Ephedrine is represented as a single oral immediate-release entry with a default input of 8 mg. The dose is freely editable. Its plasma proxy is modeled using a single-compartment absorption and elimination approximation with an oral peak at approximately 2.7 hours and an elimination half-life of 6 hours. In published pharmacokinetic data, half-life varies substantially, particularly with urinary pH.
+
+The concentration, pharmacologic effect, and sleep-disturbance curves are separate. The 24 mg normalization reference, five-hour modeled effect duration, and relative sleep-disturbance envelope are heuristic choices, not clinically validated dose-response thresholds or estimates of individual sleep impairment. The tool does not currently incorporate urine pH, renal function, or an empirically fitted caffeine/ephedrine interaction coefficient. Estimated absolute blood concentrations are not displayed for ephedrine because the model has not been calibrated to a dose-specific plasma concentration reference.
+
+Sources:
+https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=8302176c-d443-97f1-1a49-12b9a204121a
+https://pubmed.ncbi.nlm.nih.gov/11699608/
+https://www.drugs.com/monograph/ephedrine.html
 
 ## Amphetamine model
 
